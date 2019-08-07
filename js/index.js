@@ -3,14 +3,14 @@ let myStream;
 // check if browser support WebRTC
 function hasUserMedia() {
     return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-        navigator.mediaDevices.getUserMedia);
+        navigator.mozGetUserMedia);
 }
 
 if (hasUserMedia()) {
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
-        navigator.mediaDevices.getUserMedia;
+        navigator.mozGetUserMedia;
     // enabling video and audio channels
-    navigator.getUserMedia({ video: true, audio: true }, function(stream) {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true }, function(stream) {
         myStream = stream;
         let video = document.querySelector('video');
 
