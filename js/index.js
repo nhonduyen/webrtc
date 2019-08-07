@@ -1,26 +1,12 @@
 'use strict';
-let myStream;
-// check if browser support WebRTC
-function hasUserMedia() {
-    return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia);
-}
+var myStream;
 
-if (hasUserMedia()) {
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia;
-    // enabling video and audio channels
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true }, function(stream) {
-        myStream = stream;
-        let video = document.querySelector('video');
+let noti = document.getElementById('noti');
+let video = document.getElementsByTagName('video');
 
-        video.src = window.URL.createObjectURL(myStream);
-    }, function(err) {
-        console.log(err);
-    });
-} else {
-    console.warn('WebRTC is not supported');
-}
+navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    .then(stream => video.srcObject = stream)
+    .catch(err => noti.innerText = err.name + " " + err.message);
 
 document.getElementById('btnGetAudioTracks').addEventListener('click', function() {
     console.log('btnGetAudioTracks');
